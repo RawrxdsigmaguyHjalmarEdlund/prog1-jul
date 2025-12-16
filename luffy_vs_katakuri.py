@@ -1,5 +1,5 @@
 """Simple clicker GUI using tkinter."""
-
+import random
 import tkinter as tk
 
 def main():
@@ -39,8 +39,36 @@ def main():
         nonlocal cookies
         cookies += cookies_per_second
         cookie_label.config(text=f"Haki: {cookies}")
+        try:
+            if random.random() < 0.02:
+                open_popup()
+        except Exception:
+            pass
         root.after(1000, start_auto_generation)
 
+    def open_popup():
+        nonlocal cookies
+        top = tk.Toplevel(root)
+        top.title("Pedro")
+        try:
+            pedro_img = tk.PhotoImage(file="Pedro.png")
+        except tk.TclError:
+            pedro_img = None
+
+        def on_pedro_click():
+            nonlocal cookies
+            cookies *= 2
+            cookie_label.config(text=f"[Haki]: {cookies}")
+            top.destroy()
+
+        if pedro_img is not None:
+            pedro_btn = tk.Button(top, image=pedro_img, command=on_pedro_click)
+            pedro_btn.image = pedro_img
+            pedro_btn.pack(expand=True, fill="both")
+        else:
+            pedro_btn = tk.Button(top, text="Pedro (double)", command=on_pedro_click)
+            pedro_btn.pack(expand=True, fill="both")
+    
     cookie_label = tk.Label(
         root,
         text=f"[Haki]: {cookies}"
@@ -63,7 +91,6 @@ def main():
         click_btn = tk.Button(root, text="Click me!", command=click_cookie)
     click_btn.grid(column=1, row=0)
 
-    # Armament Haki upgrade: cost starts at 2 and doubles after each purchase
     armament_cost = 2
 
     def buy_armament():
@@ -92,7 +119,7 @@ def main():
         nonlocal cookies, cookies_per_second, observation_cost
         if cookies >= observation_cost:
             cookies -= observation_cost
-            cookies_per_second += 1
+            cookies_per_second += 2
             observation_cost *= 2
             per_second_label.config(text=f"Per second: {cookies_per_second}")
             observation_btn.config(text=f"Observation Haki (+1/second) Cost: {observation_cost}")
@@ -107,7 +134,6 @@ def main():
         command=buy_observation
     )
     observation_btn.grid(column=0, row=1)
-
     start_auto_generation()
 
     root.mainloop()
