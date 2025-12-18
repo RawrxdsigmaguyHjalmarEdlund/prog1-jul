@@ -6,7 +6,7 @@ def main():
     """Run the clicker application."""
     cookies = 0
     cookies_per_click = 1
-    cookies_per_second = 0
+    cookies_per_second = 1
 
     root = tk.Tk()
     root.columnconfigure(0, weight=1, minsize=100)
@@ -97,10 +97,10 @@ def main():
         nonlocal cookies, cookies_per_click, armament_cost
         if cookies >= armament_cost:
             cookies -= armament_cost
-            cookies_per_click += 1
-            armament_cost *= 2
+            cookies_per_click *= 2
+            armament_cost *= 3
             per_click_label.config(text=f"Per click: {cookies_per_click}")
-            armament_btn.config(text=f"Armament Haki (+1/click) Cost: {armament_cost}")
+            armament_btn.config(text=f"Armament [Haki] (+1/click) Cost: {armament_cost}")
             cookie_label.config(text=f"[Haki]: {cookies}")
 
     per_click_label = tk.Label(root, text=f"Per click: {cookies_per_click}")
@@ -113,14 +113,14 @@ def main():
     )
     armament_btn.grid(column=2, row=1)
 
-    observation_cost = 4
+    observation_cost = 3
 
     def buy_observation():
         nonlocal cookies, cookies_per_second, observation_cost
         if cookies >= observation_cost:
             cookies -= observation_cost
-            cookies_per_second += 2
-            observation_cost *= 2
+            cookies_per_second *= 2
+            observation_cost *= 3
             per_second_label.config(text=f"Per second: {cookies_per_second}")
             observation_btn.config(text=f"Observation Haki (+1/second) Cost: {observation_cost}")
             cookie_label.config(text=f"[Haki]: {cookies}")
